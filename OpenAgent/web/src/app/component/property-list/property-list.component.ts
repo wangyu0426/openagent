@@ -26,14 +26,10 @@ export class PropertyListComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.list = await this.propertService.list().toPromise();
-    this.totalRecords = this.list.length;
-  }
-  async loadLazy(event: LazyLoadEvent){
-      this.loading = true;
-      this.list = await this.propertService.lazyLoadingList(event).toPromise();
-      console.log
-      this.loading = false;
+    this.propertService.properties.subscribe( ps=>{
+      this.list = ps ;
+      this.totalRecords = this.list.length;
+    })
   }
 
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenAgent.Models
 {
-    public partial class Property
+    public partial class Property: IHasId
     {
         public int Id { get; set; }
         public string StreetNumber { get; set; }

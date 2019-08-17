@@ -12,19 +12,27 @@ import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { TopBarComponent } from './component/top-bar/top-bar.component';
+import {InputTextModule} from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+import { PropertyDetailComponent } from './component/property-detail/property-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PropertyListComponent
+    PropertyListComponent,
+    TopBarComponent,
+    PropertyDetailComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     TableModule,
     BrowserAnimationsModule,
     ButtonModule,
     FileUploadModule,
     ToastModule,
+    InputTextModule,
     HttpClientModule
   ],
   providers: [

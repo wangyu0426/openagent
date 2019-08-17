@@ -1,0 +1,18 @@
+.top-bar {
+    position: sticky;
+    top: 0;
+    background-color: green;
+    height: 50px;
+    z-index: 1;
+}
+.view-port{
+    height: calc(100vh - 50px);
+    overflow: hidden;
+}
+.view{
+    height: 100vh;
+    overflow:visible;
+}
+body{
+    margin: 0px !important;
+}

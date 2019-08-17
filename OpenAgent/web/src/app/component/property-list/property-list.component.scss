@@ -1,0 +1,8 @@
+::ng-deep .scroll-hight-fix{
+    .ui-table-scrollable-body{
+        max-height: calc(100vh - 120px) !important;
+    }
+    .ui-table-thead{
+        margin-right: 5px;
+    }
+}

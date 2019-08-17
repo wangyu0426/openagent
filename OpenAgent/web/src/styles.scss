@@ -1,1 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
+.pull-left{
+    float: left;
+}
+.pull-right{
+    float: right;
+}
+@for $i from 1 through 40 {
+    .margin-top-#{$i}, .mt-#{$i}{
+        margin-top: #{$i}px;
+    }
+    .margin-bottom-#{$i}, .mb-#{$i}{
+        margin-bottom: #{$i}px;
+    }
+    .margin-left-#{$i}, .ml-#{$i}{
+        margin-left: #{$i}px;
+    }
+    .margin-right-#{$i}, .mr-#{$i}{
+        margin-right: #{$i}px;
+    }    
+    .padding-top-#{$i}, .pt-#{$i}{
+        padding-top: #{$i}px;
+    }
+    .padding-bottom-#{$i}, .pb-#{$i}{
+        padding-bottom: #{$i}px;
+    }
+    .padding-left-#{$i}, .pl-#{$i}{
+        padding-left: #{$i}px;
+    }
+    .padding-right-#{$i} .pr-#{$i}{
+        padding-right: #{$i}px;
+    }
+}
+ 

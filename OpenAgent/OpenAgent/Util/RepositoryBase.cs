@@ -8,7 +8,7 @@ using OpenAgent.Models;
 
 namespace OpenAgent.Util
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class, IHasId
     {
 
         OpenAgentContextFactory SpeechAndTranslateContextFactory { get; set; }
@@ -17,14 +17,14 @@ namespace OpenAgent.Util
         bool HasItem(Expression<Func<T, bool>> @where);
         DataTable RunSql(string sql, IDictionary<string, object> paramObjects);
         int RunScalar(string sql, IDictionary<string, object> paramObjects);
-        IList<T> Get(Expression<Func<T, bool>> @where, int page, int limit);
+        IList<T> Get(Expression<Func<T, bool>> @where, int? page, int? limit);
         IList<T> Get(int page, int limit);
         IList<T> Create(IList<T> ts);
         void Update(IList<T> ts);
         void Delete(IList<T> ts);
     }
 
-    public abstract class RepositoryBase<T> : IRepository<T> where T : class
+    public abstract class RepositoryBase<T> : IRepository<T> where T : class, IHasId
     {
         public OpenAgentContextFactory SpeechAndTranslateContextFactory { get; set; }
 
@@ -43,7 +43,6 @@ namespace OpenAgent.Util
             using (var conn = SpeechAndTranslateContextFactory.Create())
             {
                 var items = conn.Set<T>().Where(where).ToList();
-                items.ForEach(t => conn.Entry(t).State = EntityState.Detached);
                 return items;
             }
         }
@@ -102,13 +101,18 @@ namespace OpenAgent.Util
                 }
             }
         }
-        public IList<T> Get(Expression<Func<T, bool>> @where, int page, int limit)
+        public IList<T> Get(Expression<Func<T, bool>> @where, int? page, int? limit)
         {
             using (var conn = SpeechAndTranslateContextFactory.Create())
             {
-                var items = conn.Set<T>().Where(where).Skip((page - 1) * limit).Take(limit).ToList();
-                items.ForEach(t => conn.Entry(t).State = EntityState.Detached);
-                return items;
+                var query = conn.Set<T>().Where(where);
+                if (page.HasValue && limit.HasValue)
+                {
+                    var pageValue = page.Value;
+                    var limitValue = limit.Value;
+                    query = query.OrderBy(models=> models.Id).Skip((pageValue - 1) * limitValue).Take(limitValue);
+                }
+                return query.ToList();
             }
         }
         public IList<T> Get(int page, int limit)
@@ -116,7 +120,6 @@ namespace OpenAgent.Util
             using (var conn = SpeechAndTranslateContextFactory.Create())
             {
                 var items = conn.Set<T>().Skip((page - 1) * limit).Take(limit).ToList();
-                items.ForEach(t => conn.Entry(t).State = EntityState.Detached);
                 return items;
             }
         }
@@ -135,7 +138,6 @@ namespace OpenAgent.Util
 
                     throw e;
                 }
-                ts.ForEach(t => conn.Entry<T>(t).State = EntityState.Detached);
             }
             return ts;
         }
@@ -145,17 +147,14 @@ namespace OpenAgent.Util
             {
                 ts.ForEach(t => conn.Update(t));
                 conn.SaveChanges();
-                ts.ForEach(t => conn.Entry(t).State = EntityState.Detached);
             }
         }
         public virtual void Delete(IList<T> ts)
         {
             using (var conn = SpeechAndTranslateContextFactory.Create())
             {
-                ts.ForEach(t => conn.Entry(t).State = EntityState.Deleted);
                 conn.Set<T>().RemoveRange(ts);
                 conn.SaveChanges();
-                ts.ForEach(t => conn.Entry(t).State = EntityState.Detached);
             }
         }
     }

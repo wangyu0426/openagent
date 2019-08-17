@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,23 @@ namespace OpenAgent.Controllers
         public PropertyRepository PropertyRepository { get; set; }
         // GET: api/Property
         [HttpGet]
-        public IEnumerable<Property> Get()
+        public IEnumerable<Property> Get(
+            [FromQuery(Name = "page")] int? page,
+            [FromQuery(Name = "size")] int? pageSize,
+            [FromQuery(Name = "search")] string queryString
+        )
         {
-            var propertyList = PropertyRepository.Get(x=>true);
+            Expression<Func<Property, bool>> where ;
+            if (string.IsNullOrWhiteSpace(queryString))
+            {
+                where = p => true;
+            }
+            else
+            {
+                where =  p => p.Formatted.Contains(queryString);
+            }
+            var propertyList = PropertyRepository.Get(where, page, pageSize);
+
             return propertyList;
         }
 

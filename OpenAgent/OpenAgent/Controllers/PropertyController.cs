@@ -51,6 +51,7 @@ namespace OpenAgent.Controllers
         [HttpPost]
         public void Post([FromBody] Property value)
         {
+            PropertyRepository.Create(value);
         }
 
         // PUT: api/Property/5
@@ -60,7 +61,7 @@ namespace OpenAgent.Controllers
             var items = PropertyRepository.Get(p => p.Id == id);
             if (items.Any())
             {
-                PropertyRepository.Update(new List<Property>() { value });
+                PropertyRepository.Update( value );
             }
         }
 

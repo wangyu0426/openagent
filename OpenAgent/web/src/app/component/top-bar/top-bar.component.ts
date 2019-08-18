@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PropertyService } from 'src/app/service/property.service';
+import { PropertyService, Property } from 'src/app/service/property.service';
 import {InputTextModule} from 'primeng/inputtext';
 
 @Component({
@@ -15,5 +15,8 @@ export class TopBarComponent implements OnInit {
   }
   onSearchClick(){
     this.propertyService.load(this.searchString);
+  }
+  onAddClick(){
+    this.propertyService.editingProperty.next(new Property());
   }
 }

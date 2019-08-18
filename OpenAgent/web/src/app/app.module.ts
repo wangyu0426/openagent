@@ -14,9 +14,10 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { TopBarComponent } from './component/top-bar/top-bar.component';
 import {InputTextModule} from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PropertyDetailComponent } from './component/property-detail/property-detail.component';
-
+import {DialogModule} from 'primeng/dialog';
+import {DropdownModule} from 'primeng/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,12 +28,15 @@ import { PropertyDetailComponent } from './component/property-detail/property-de
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     TableModule,
     BrowserAnimationsModule,
     ButtonModule,
     FileUploadModule,
     ToastModule,
     InputTextModule,
+    DialogModule,
+    DropdownModule,
     HttpClientModule
   ],
   providers: [

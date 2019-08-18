@@ -12,7 +12,7 @@ export class PropertyListComponent implements OnInit {
   loading: boolean;
   cols: { field: string; header: string; }[];
   totalRecords: number;
-
+  selectedRecord;
   constructor(private propertService: PropertyService) {
     this.cols = [
       { field: 'propertyType', header: 'Property Type' },
@@ -30,6 +30,9 @@ export class PropertyListComponent implements OnInit {
       this.list = ps ;
       this.totalRecords = this.list.length;
     })
+  }
+  onRowSelect(event) {
+    this.propertService.editingProperty.next(event.data);
   }
 
 }

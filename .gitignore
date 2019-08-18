@@ -2,3 +2,5 @@ OpenAgent/.vs/
 OpenAgent/OpenAgent/bin/
 OpenAgent/OpenAgent/obj/
 OpenAgent/OpenAgent/appsettings.Development.json
+release/
+release.zip

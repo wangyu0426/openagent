@@ -2,9 +2,9 @@
     Property List
 </h2>
 <div class="pull-left mt-9 ml-20">
-    <button pButton type="button"  label="Add" icon="pi pi-plus" (click)="onAddClick($event)"></button>
+    <button pButton type="button"  label="Add" icon="pi pi-plus" (click)="onAddClick()"></button>
 </div>
 <div class="ui-inputgroup pull-right mr-20 mt-9">
     <input type="text" [(ngModel)]="searchString" (keyup.enter)="onSearchClick()" pInputText placeholder="Search...">   
-    <button pButton type="button" icon="pi pi-search" (click)="onSearchClick($event)"></button>
+    <button pButton type="button" icon="pi pi-search" (click)="onSearchClick()"></button>
 </div>

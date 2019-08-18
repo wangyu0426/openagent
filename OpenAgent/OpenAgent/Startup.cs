@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenAgent.Models;
@@ -21,7 +23,15 @@ namespace OpenAgent
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            var basePath = AppContext.BaseDirectory;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(basePath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -43,10 +53,9 @@ namespace OpenAgent
             }
             else
             {
-                app.UseHsts();
+                //app.UseHsts();
             }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            //app.UseHttpsRedirection();
             // Register the Swagger generator and the Swagger UI middlewares
             app.UseOpenApi();
             app.UseSwaggerUi3();
@@ -57,6 +66,8 @@ namespace OpenAgent
                 .AllowAnyHeader()
                 .AllowCredentials());
             app.UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

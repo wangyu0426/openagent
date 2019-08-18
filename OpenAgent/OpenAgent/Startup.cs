@@ -46,6 +46,7 @@ namespace OpenAgent
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             // Register the Swagger generator and the Swagger UI middlewares
             app.UseOpenApi();
             app.UseSwaggerUi3();

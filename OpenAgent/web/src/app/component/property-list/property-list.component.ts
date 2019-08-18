@@ -3,7 +3,7 @@ import { PropertyService, Property } from 'src/app/service/property.service';
 import {LazyLoadEvent} from 'primeng/api';
 
 @Component({
-  selector: 'property-list',
+  selector: 'app-property-list',
   templateUrl: './property-list.component.html',
   styleUrls: ['./property-list.component.scss']
 })
@@ -13,26 +13,17 @@ export class PropertyListComponent implements OnInit {
   cols: { field: string; header: string; }[];
   totalRecords: number;
   selectedRecord;
-  constructor(private propertService: PropertyService) {
-    this.cols = [
-      { field: 'propertyType', header: 'Property Type' },
-      { field: 'streetNumber', header: 'Street Number' },
-      { field: 'streetName', header: 'Street Name' },
-      { field: 'streetType', header: 'Street Type' },
-      { field: 'suburb', header: 'Suburb' },
-      { field: 'state', header: 'State' },
-      { field: 'postCode', header: 'Postcode' }
-    ];
+  constructor(private propertyService: PropertyService) {
+    this.cols = PropertyService.cols;
   }
 
   async ngOnInit() {
-    this.propertService.properties.subscribe( ps=>{
+    this.propertyService.properties.subscribe( ps => {
       this.list = ps ;
       this.totalRecords = this.list.length;
-    })
+    });
   }
   onRowSelect(event) {
-    this.propertService.editingProperty.next(event.data);
+    this.propertyService.editingProperty.next(event.data);
   }
-
 }

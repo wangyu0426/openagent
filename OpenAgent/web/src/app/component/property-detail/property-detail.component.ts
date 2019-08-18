@@ -4,7 +4,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { Helpers } from 'src/app/misc/Helper';
 
 @Component({
-  selector: 'property-detail',
+  selector: 'app-property-detail',
   templateUrl: './property-detail.component.html',
   styleUrls: ['./property-detail.component.scss']
 })
@@ -14,24 +14,24 @@ export class PropertyDetailComponent implements OnInit {
   cols: { field: string; header: string; }[];
   formGroup: any;
 
-  constructor(private fb: FormBuilder,private propertyService:PropertyService) { 
+  constructor(private fb: FormBuilder, private propertyService: PropertyService) {
     this.cols = PropertyService.cols;
   }
 
   ngOnInit() {
     this.propertyService.editingProperty.subscribe(
-      property=>{
+      property => {
         this.display = true;
         this.property = Helpers.clone(property);
         console.log(property);
       }
-    )
+    );
   }
-  async onSaveClick($event){
+  async onSaveClick($event) {
     let promise;
-    if(this.property.id && this.property.id > 0){
+    if (this.property.id && this.property.id > 0) {
       promise = this.propertyService.updateProperty(this.property);
-    } else{
+    } else {
       promise = this.propertyService.createProperty(this.property);
     }
     const result = await promise.toPromise();

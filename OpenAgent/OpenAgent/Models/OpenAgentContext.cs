@@ -96,10 +96,7 @@ namespace OpenAgent.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-              optionsBuilder.UseSqlServer("Server=loanme.ceozeyz1dizv.ap-southeast-2.rds.amazonaws.com;Database=OpenAgent;User Id=sa;Password=Wanyy142!");
-            }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
